@@ -1,28 +1,27 @@
-import * as fs from 'fs';
-
-const startdir:string = "teekond1/";
-
-function displayDirectoryData(dirname: string) {
-    console.log(dirname);
-    let filenames: string[] = fs.readdirSync(startdir + dirname);
-    let maxMileage = 0;
-    let maxMileageCar = '';
-    for (let filename of filenames) {
-        let contents: string = fs.readFileSync(startdir + dirname + '/' + filename, 'utf-8');
-        let dailyMileage = parseInt(contents);
-        if (dailyMileage > 30) {
-            console.log('  ' + filename, contents);
-            if (dailyMileage > maxMileage) {
-                maxMileage = dailyMileage;
-                maxMileageCar = filename.slice(0, -4); // remove the file extension ".txt"
-            }
-        }
+import * as fs from "fs";
+function sumDirectoryData(dirname:string):number{
+    let filenames:string[] = fs.readdirSync(dirname);
+    let sum: number=0;
+    for(let filename of filenames){
+        let contents:string=fs.readFileSync(dirname+"/"+filename, "utf-8");
+        sum+=parseInt(contents);
     }
-    console.log(`  Max mileage car: ${maxMileageCar} (${maxMileage} km)`);
+    return sum;
 }
 
-
-let dirnames:string[] = fs.readdirSync(startdir);
-for(let dirname of dirnames){
-    displayDirectoryData(dirname);
+function givendaymax(dirname:string):number {
+    let filenames: string[] = fs.readdirSync(dirname);
+    let max: number = 0;
+    for (let filename of filenames) {
+        let value: number = parseInt(fs.readFileSync(dirname + filename, "utf-8"));
+        max = value > max ? value : max;
+    }
+    return max;
 }
+
+const both = sumDirectoryData("teekond1/kolmapaev/") + sumDirectoryData("teekond1/neljapaev/");
+console.log(sumDirectoryData("teekond1/kolmapaev/"));
+console.log(sumDirectoryData("teekond1/neljapaev/"));
+console.log(both);
+
+console.log(givendaymax("teekond1/kolmapaev/"));
