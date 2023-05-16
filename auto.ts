@@ -1,27 +1,27 @@
 import * as fs from "fs";
-function sumDirectoryData(dirname:string):number{
-    let filenames:string[] = fs.readdirSync(dirname);
-    let sum: number=0;
-    for(let filename of filenames){
-        let contents:string=fs.readFileSync(dirname+"/"+filename, "utf-8");
-        sum+=parseInt(contents);
-    }
-    return sum;
+function minDayData(dirname:string){
+    let values:number[]=fs.readdirSync(dirname).map(filename =>
+        parseInt(fs.readFileSync(dirname+"/"+filename, "utf-8") ));
+    return Math.min(...values);
+}
+function maxDayData(dirname:string){
+    let values:number[]=fs.readdirSync(dirname).map(filename =>
+        parseInt(fs.readFileSync(dirname+"/"+filename, "utf-8") ));
+    return Math.max(...values);
+}
+function minDaysData(startdir:string){
+    let daynames:string[]=fs.readdirSync(startdir);
+    let values:number[]=daynames.map(dayname => minDayData(startdir+dayname));
+    return Math.min(...values);
+}
+function maxDaysData(startdir:string){
+    let daynames:string[]=fs.readdirSync(startdir);
+    let values:number[]=daynames.map(dayname => maxDayData(startdir+dayname));
+    return Math.max(...values);
 }
 
-function givendaymax(dirname:string):number {
-    let filenames: string[] = fs.readdirSync(dirname);
-    let max: number = 0;
-    for (let filename of filenames) {
-        let value: number = parseInt(fs.readFileSync(dirname + filename, "utf-8"));
-        max = value > max ? value : max;
-    }
-    return max;
-}
 
-const both = sumDirectoryData("teekond1/kolmapaev/") + sumDirectoryData("teekond1/neljapaev/");
-console.log(sumDirectoryData("teekond1/kolmapaev/"));
-console.log(sumDirectoryData("teekond1/neljapaev/"));
-console.log(both);
-
-console.log(givendaymax("teekond1/kolmapaev/"));
+console.log(minDayData("teekond1/kolmapaev/"));
+console.log(maxDayData("teekond1/kolmapaev/"));
+console.log(minDaysData("teekond1/"));
+console.log(maxDaysData("teekond1/"));
