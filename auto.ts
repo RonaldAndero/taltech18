@@ -1,25 +1,28 @@
 import * as fs from 'fs';
 
-let directory="kolmapaev/";
-let filenames:string[] = fs.readdirSync(directory);
-let min:number=parseInt(fs.readFileSync(directory+filenames[0], "utf-8"));
-let max:number=parseInt(fs.readFileSync(directory+filenames[0], "utf-8"));
-let min_file = '';
-let max_file = '';
-for(let filename of filenames){
-    let value:number=parseInt(fs.readFileSync(directory+filename, "utf-8"));
-    min_file = value<min?filename:min_file;
-    min=value<min?value:min;
-    // find the name of the file with the smallest number
+const startdir:string = "teekond1/";
 
-}
-for (let filename of filenames) {
-    let value:number=parseInt(fs.readFileSync(directory+filename, "utf-8"));
-    min = value < min ? value : min;
-    // find the name of the file with the smallest number
-    max_file = value > max ? filename : max_file;
-    max = value > max ? value : max;
+function displayDirectoryData(dirname: string) {
+    console.log(dirname);
+    let filenames: string[] = fs.readdirSync(startdir + dirname);
+    let maxMileage = 0;
+    let maxMileageCar = '';
+    for (let filename of filenames) {
+        let contents: string = fs.readFileSync(startdir + dirname + '/' + filename, 'utf-8');
+        let dailyMileage = parseInt(contents);
+        if (dailyMileage > 30) {
+            console.log('  ' + filename, contents);
+            if (dailyMileage > maxMileage) {
+                maxMileage = dailyMileage;
+                maxMileageCar = filename.slice(0, -4); // remove the file extension ".txt"
+            }
+        }
+    }
+    console.log(`  Max mileage car: ${maxMileageCar} (${maxMileage} km)`);
 }
 
-console.log(min + " " + min_file)
-console.log(max + " " + max_file)
+
+let dirnames:string[] = fs.readdirSync(startdir);
+for(let dirname of dirnames){
+    displayDirectoryData(dirname);
+}
