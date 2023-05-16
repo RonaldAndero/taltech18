@@ -1,29 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
-function minDayData(dirname) {
-    var values = fs.readdirSync(dirname).map(function (filename) {
-        return parseInt(fs.readFileSync(dirname + "/" + filename, "utf-8"));
-    });
-    return Math.min.apply(Math, values);
+function display(path) {
+    console.log(path);
+    if (fs.lstatSync(path).isDirectory()) {
+        for (var _i = 0, _a = fs.readdirSync(path); _i < _a.length; _i++) {
+            var subpath = _a[_i];
+            display(path + "/" + subpath);
+        }
+    }
 }
-function maxDayData(dirname) {
-    var values = fs.readdirSync(dirname).map(function (filename) {
-        return parseInt(fs.readFileSync(dirname + "/" + filename, "utf-8"));
-    });
-    return Math.max.apply(Math, values);
+function findCarInDirectory(path, carname) {
+    var filenames = fs.readdirSync(path);
+    if (filenames.includes(carname)) {
+        console.log("Found ".concat(carname, " in ").concat(path));
+    }
+    for (var _i = 0, filenames_1 = filenames; _i < filenames_1.length; _i++) {
+        var filename = filenames_1[_i];
+        var subpath = path + '/' + filename;
+        if (fs.lstatSync(subpath).isDirectory()) {
+            findCarInDirectory(subpath, carname);
+        }
+    }
 }
-function minDaysData(startdir) {
-    var daynames = fs.readdirSync(startdir);
-    var values = daynames.map(function (dayname) { return minDayData(startdir + dayname); });
-    return Math.min.apply(Math, values);
-}
-function maxDaysData(startdir) {
-    var daynames = fs.readdirSync(startdir);
-    var values = daynames.map(function (dayname) { return maxDayData(startdir + dayname); });
-    return Math.max.apply(Math, values);
-}
-console.log(minDayData("teekond1/kolmapaev/"));
-console.log(maxDayData("teekond1/kolmapaev/"));
-console.log(minDaysData("teekond1/"));
-console.log(maxDaysData("teekond1/"));
+display('teekond2');
+findCarInDirectory('teekond2', '123ABC.txt');
