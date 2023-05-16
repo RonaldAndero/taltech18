@@ -1,14 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
-var filenames = fs.readdirSync('kolmapaev');
-console.log(filenames);
-var filePath = 'kolmapaev/test2.txt';
-fs.readFile(filePath, 'utf-8', function (err, data) {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    var symbolCount = data.length;
-    console.log("The file contains ".concat(symbolCount, " symbols."));
-});
+var directory = "kolmapaev/";
+var sum = 0;
+var filenames = fs.readdirSync(directory);
+for (var _i = 0, filenames_1 = filenames; _i < filenames_1.length; _i++) {
+    var filename = filenames_1[_i];
+    var contents = fs.readFileSync(directory + filename, "utf-8");
+    sum += parseInt(contents);
+}
+console.log(sum);

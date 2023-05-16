@@ -1,16 +1,10 @@
 import * as fs from "fs";
 
-let filenames:string[] = fs.readdirSync('kolmapaev');
-console.log(filenames);
-
-const filePath = 'kolmapaev/test2.txt';
-
-fs.readFile(filePath, 'utf-8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-
-    const symbolCount = data.length;
-    console.log(`The file contains ${symbolCount} symbols.`);
-});
+let directory="kolmapaev/";
+let sum:number=0;
+let filenames:string[] = fs.readdirSync(directory);
+for(let filename of filenames){
+    let contents:string=fs.readFileSync(directory+filename, "utf-8");
+    sum+=parseInt(contents);
+}
+console.log(sum)
